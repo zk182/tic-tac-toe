@@ -18,6 +18,7 @@ function Square (props) {
             squares: Array(9).fill(null),
             xNext: true,
             movements: 0,
+            winner: null,
         }
     }
     renderSquare(i) {
@@ -25,20 +26,20 @@ function Square (props) {
     }
 
     handleClick(i) {
-        const { squares, xNext } = this.state;
-        const newValue = xNext ? 'X' : 'O'
-        if (squares[i] == null) {
-          squares[i]= newValue;
-          this.setState({squares, xNext: !this.state.xNext, movements: this.state.movements + 1});
+        const { xNext, winner, movements } = this.state;
+        const squares = this.state.squares.slice();
+        if (winner || squares[i]) {
+          return;
         }
+        const newValue = xNext ? 'X' : 'O'
+        squares[i]= newValue;
+        const newMovements = movements + 1;
+        const newWinner = newMovements >= 5 ? calculateWinner(squares) : null;
+        this.setState({squares, xNext: !this.state.xNext, movements: newMovements,  winner: newWinner });
     };
   
     render() {
-      if (this.state.movements >= 5) { 
-
-      }
-      const winner = this.state.movements >= 5 ? calculateWinner(this.state.squares) : null;
-      const status = winner ? `Winner: ${winner}!` : this.state.movements < 9 ? `Next player: ${this.state.xNext ? 'X' : 'O'}` : 'Game ended';
+      const status = this.state.winner ? `Winner: ${this.state.winner}!` : this.state.movements < 9 ? `Next player: ${this.state.xNext ? 'X' : 'O'}` : 'Game ended';
   
       return (
         <div>
