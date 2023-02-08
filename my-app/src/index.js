@@ -2,36 +2,43 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-class Square extends React.Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            value:null,
-        }
-    }
-    render() {
-      return (
-        <button className="square"
-         onClick={()=> {this.setState({value: 'X'})}}>
-          {this.state.value}
-        </button>
-      );
-    }
-  }
+function Square (props) {
+  return (
+    <button className="square"
+      onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
+}
   
   class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            squares: Array(9).fill(null)
+            squares: Array(9).fill(null),
+            xNext: true,
+            movements: 0,
         }
     }
     renderSquare(i) {
-      return <Square value={this.state.squares[i]}/>;
+      return <Square value={this.state.squares[i]} onClick={()=> this.handleClick(i)}/>;
     }
+
+    handleClick(i) {
+        const { squares, xNext } = this.state;
+        const newValue = xNext ? 'X' : 'O'
+        if (squares[i] == null) {
+          squares[i]= newValue;
+          this.setState({squares, xNext: !this.state.xNext, movements: this.state.movements + 1});
+        }
+    };
   
     render() {
-      const status = 'Next player: Empty';
+      if (this.state.movements >= 5) { 
+
+      }
+      const winner = this.state.movements >= 5 ? calculateWinner(this.state.squares) : null;
+      const status = winner ? `Winner: ${winner}!` : this.state.movements < 9 ? `Next player: ${this.state.xNext ? 'X' : 'O'}` : 'Game ended';
   
       return (
         <div>
@@ -70,6 +77,26 @@ class Square extends React.Component {
         </div>
       );
     }
+  }
+
+  function calculateWinner(squares) {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+      const [a, b, c] = lines[i];
+      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+        return squares[a];
+      }
+    }
+    return null;
   }
   
   // ========================================
