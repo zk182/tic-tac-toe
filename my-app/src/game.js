@@ -46,7 +46,7 @@ export class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const moves = history.map((step, move) => {
       const desc = move ?
-        'Go to move #' + move :
+        `Go to move # ${move}` :
         'Go to game start';
       return (
         <li key={move}>
