@@ -47,7 +47,7 @@ export class Game extends React.Component {
     const moves = history.map((step, move) => {
       const location = calculateLocation(history, step, move);
       const desc = move ?
-        `Go to move:${move}, Location:${location}` :
+        `Go to move:${move}, location:${location}` :
         'Go to game start';
       return (
         <li key={move}>
