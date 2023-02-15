@@ -45,8 +45,9 @@ export class Game extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const moves = history.map((step, move) => {
+      const location = calculateLocation(history, step, move);
       const desc = move ?
-        `Go to move # ${move}` :
+        `Go to move:${move}, Location:${location}` :
         'Go to game start';
       return (
         <li key={move}>
@@ -98,4 +99,25 @@ function calculateWinner(squares) {
     }
   }
   return null;
+}
+
+function calculateLocation(history, step, move) {
+  if (history[move-1]) {  
+    const diff = step.squares.findIndex((item,index) => 
+      history[move-1].squares[index] !== item
+    ); 
+    return location[diff];
+  }
+}
+
+const location = {
+0: '0,0',
+1: '0,1',
+2: '0,2',
+3: '1,0',
+4: '1,1',
+5: '1,2',
+6: '2,0',
+7: '2,1',
+8: '2,2',
 }
