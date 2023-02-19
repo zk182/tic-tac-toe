@@ -39,6 +39,16 @@ export class Game extends React.Component {
       xIsNext: step % 2 === 0,
     })
   }
+
+  reverseHistory() {
+    const history = this.state.history.slice();
+    const reversedHistory = history.slice(1).reverse();
+    const newHistory = [{squares: Array(9).fill(null)}, ...reversedHistory];
+    console.log(newHistory);
+    this.setState({
+      history: history
+    })
+  }
   
 
   render() {
@@ -72,7 +82,10 @@ export class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          <div>{status}</div>
+          <div>
+          {status}
+        <button className='game-sort' onClick={() => this.reverseHistory()}>Change order!</button>
+          </div>
           <ol>{moves}</ol>
         </div>
       </div>

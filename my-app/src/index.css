@@ -35,6 +35,11 @@ body {
     text-align: center;
     width: 34px;
   }
+
+  .game-sort {
+    padding-left: 10px;
+    margin-left: 10px
+  }
   
   .square:focus {
     outline: none;
