@@ -88,9 +88,9 @@ export class Game extends React.Component {
         <div className="game-info">
           <div>
           {status}
-        <button className='game-sort' onClick={() => this.reverseHistory()}>Change order!</button>
-          </div>
+          </div>          
           <ol>{moves}</ol>
+          <button className='game-sort' onClick={() => this.reverseHistory()}>Change order!</button>
         </div>
       </div>
     );
