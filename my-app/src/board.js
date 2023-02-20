@@ -2,7 +2,7 @@ import React from 'react';
 import { Square } from './square';
 export class Board extends React.Component {
     renderSquare(i) {
-      return <Square value={this.props.squares[i]} onClick={()=> this.props.onClick(i)}/>;
+      return <Square value={this.props.squares[i]} isWinner={this.props.winners ? this.props.winners.includes(i) : false} onClick={()=> this.props.onClick(i)}/>;
     }
   
     render() {

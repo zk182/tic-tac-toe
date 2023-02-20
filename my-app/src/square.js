@@ -1,6 +1,6 @@
 export function Square (props) {
     return (
-      <button className="square"
+      <button className={props.isWinner ? "winner" : "square"}
         onClick={props.onClick}>
         {props.value}
       </button>
