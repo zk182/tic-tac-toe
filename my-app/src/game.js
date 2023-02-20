@@ -8,7 +8,6 @@ export class Game extends React.Component {
     this.state = {
       history: [{
         squares: Array(9).fill(null),
-        step:0,
       }],
       xIsNext: true,
       stepNumber: 0,
@@ -18,7 +17,6 @@ export class Game extends React.Component {
   handleClick(i) {
     const history = this.state.history;
     const current = history[history.length - 1];
-    const step = current.step + 1;
     const squares = current.squares.slice();
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -27,7 +25,6 @@ export class Game extends React.Component {
     this.setState({
       history: history.concat([{
         squares: squares,
-        step: step,
       }]),
       stepNumber: history.length,
       xIsNext: !this.state.xIsNext,
@@ -43,25 +40,15 @@ export class Game extends React.Component {
     })
   }
 
-  reverseHistory() {
-    const history = this.state.history.slice();
-    const reversedHistory = history.slice(1).reverse();
-    const newHistory = [{squares: Array(9).fill(null)}, ...reversedHistory];
-    console.log(newHistory);
-    this.setState({
-      history: history
-    })
-  }
-  
 
   render() {
     const history = this.state.history;
     const currentStep = this.state.stepNumber
     const current = history[currentStep];
-    const moves = history.map((step, move) => {
-      const location = calculateLocation(history, step, move);
+    const moves = history.map((current, move) => {
+      const location = calculateLocation(history, current, move);
       const desc = move ?
-        `Go to move:${move}, location:${location}` :
+        `Go to move:${move}, location:${location}`:
         'Go to game start';
       return (
         <li key={move}>
@@ -90,7 +77,6 @@ export class Game extends React.Component {
           {status}
           </div>          
           <ol>{moves}</ol>
-          <button className='game-sort' onClick={() => this.reverseHistory()}>Change order!</button>
         </div>
       </div>
     );
